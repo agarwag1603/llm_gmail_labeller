@@ -10,7 +10,7 @@ def add_labels_gmail(gmail_service,result,mailid):
     try:
     # Define the request body to remove the 'UNREAD' label
         modify_request = {
-        'removeLabelIds': ['UNREAD','INBOX'],
+        'removeLabelIds': ['INBOX'],
         'addLabelIds': [final_label_info[0]['id']]
     }
 
