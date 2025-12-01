@@ -30,16 +30,16 @@ def llm_caller(gmail_service,messages):
         return subject.get("value","No Subject")
 
     for message in messages:
-                    msg = gmail_service.users().messages().get(userId='me', id=message['id'], format='full').execute()
-                    full_message_list=[{"id":m["id"],"email_body":m["snippet"],"Subject":extract_subject(),"labelIds":m["labelIds"]} for m in [msg] if 'UNREAD' in m.get("labelIds",[])]
-                    workflow=mail_classifier()
-                    mailid=[ item['id'] for item in full_message_list]
-                    mailid=mailid[0]
-                    email_body=[ item['email_body'] for item in full_message_list]
-                    email_body=email_body[0]
-                    email_subject=[ item['Subject'] for item in full_message_list]
-                    email_subject=email_subject[0]
-                    result=workflow.invoke({"email_body":email_body,"email_subject":email_subject})
-                    label_result=add_labels_gmail(gmail_service,result,mailid)
+        msg = gmail_service.users().messages().get(userId='me', id=message['id'], format='full').execute()
+        full_message_list=[{"id":m["id"],"email_body":m["snippet"],"Subject":extract_subject(),"labelIds":m["labelIds"]} for m in [msg] if 'UNREAD' in m.get("labelIds",[])]
+        workflow=mail_classifier()
+        mailid=[ item['id'] for item in full_message_list]
+        mailid=mailid[0]
+        email_body=[ item['email_body'] for item in full_message_list]
+        email_body=email_body[0]
+        email_subject=[ item['Subject'] for item in full_message_list]
+        email_subject=email_subject[0]
+        result=workflow.invoke({"email_body":email_body,"email_subject":email_subject})
+        label_result=add_labels_gmail(gmail_service,result,mailid)
 
-                    print(f'For the email: "{result['email_subject']}", {label_result}{result['mailtype']}')
+        print(f'For the email: "{result['email_subject']}", {label_result}{result['mailtype']}')
